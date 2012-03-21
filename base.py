@@ -92,11 +92,7 @@ class Car(Object):
         super(Car, self).draw()
 
 
-class Window(Wheel):
-    mode = GL_LINE_LOOP
-
-
-class House(Object):
+class Arrow(Object):
     color = RED
     vertices = [
         (10.0, 0.0),
@@ -104,9 +100,6 @@ class House(Object):
         (0.0, 30.0),
         (-10.0, 20.0),
         (-10.0, 0.0),
-    ]
-    objects = [
-        (Window(), 0, 15)
     ]
 
 
