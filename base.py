@@ -20,7 +20,7 @@ def mirror(iterable):
 
 class Object(object):
     mode = GL_POLYGON
-    
+
     def centroide(self):
         x_total = 0
         y_total = 0
@@ -28,8 +28,8 @@ class Object(object):
         for x, y in self.vertices:
             x_total += x
             y_total += y
-        return  (x_total / len_, y_total / len_) 
-    
+        return  (x_total / len_, y_total / len_)
+
     def draw(self):
         if hasattr(self, 'color'):
             glColor3f(*self.color)
@@ -40,8 +40,57 @@ class Object(object):
             glEnd()
         if hasattr(self, 'objects'):
             for item, x, y in self.objects:
-                glTranslated(x, y, 0);
+                glTranslated(x, y, 0)
                 item.draw()
+
+
+class Droid(object):
+    left_leg = {
+        'pos': [-0.15, -0.35, 0.0],
+        'foot': {
+            'pos': [0.0, -0.2, 0.0],
+        }
+    }
+
+    right_leg = {
+        'pos': [0.15, -0.35, 0.0],
+        'foot': {
+            'pos': [0.0, -0.2, 0.0],
+        }
+    }
+
+    def draw(self):
+        glColor3f(1.0, 0.0, 0.0)
+        glPushMatrix()
+
+        #body
+        glTranslatef(0.0, 0.2, 0.0)
+        glutWireCube(0.5)
+
+        #left leg
+        glPushMatrix()
+        glTranslatef(*self.left_leg['pos'])
+        glutWireCube(0.2)
+
+        #left foot
+        glTranslatef(*self.left_leg['foot']['pos'])
+        glutWireCube(0.2)
+        glPopMatrix()
+
+        #right leg
+        glPushMatrix()
+        glTranslatef(*self.right_leg['pos'])
+        glutWireCube(0.2)
+
+        #right foot
+        glTranslatef(*self.right_leg['foot']['pos'])
+        glutWireCube(0.2)
+        glPopMatrix()
+
+        glPopMatrix()
+
+    def walk(self):
+        pass
 
 
 class Tree(Object):
@@ -77,6 +126,7 @@ class Car(Object):
         (Wheel(), 40, 0),
     ]
     rotate = 0
+    mirror = False
 
     def __init__(self, x, y, color=BLUE):
         self.x = x
@@ -87,6 +137,8 @@ class Car(Object):
         c = self.centroide()
         glLoadIdentity()
         glTranslated(self.x + c[0], self.y + c[1], 0)
+        if self.mirror:
+            glScaled(-1, 1, 1)
         glRotate(degrees[self.rotate], 0, 0, 1)
         glTranslated(-c[0], -c[1], 0)
         super(Car, self).draw()
@@ -101,29 +153,3 @@ class Arrow(Object):
         (-10.0, 20.0),
         (-10.0, 0.0),
     ]
-
-
-def base(display, reshape, keyboard=None, special=None, idle=None):
-    #Init Glut
-    glutInit(sys.argv)
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH)
-    
-    #create window
-    glutInitWindowPosition(0, 0)
-    glutInitWindowSize(640, 480)
-    glutCreateWindow('Houses')
-    
-    #callbacks
-    glutDisplayFunc(display)
-    glutReshapeFunc(reshape)
-    if keyboard is not None:
-        glutKeyboardFunc(keyboard)
-    if special is not None:
-        glutSpecialFunc(special)
-    if idle is None:
-        glutIdleFunc(display)
-    else:
-        glutIdleFunc(idle)
-    
-    #mainloop
-    glutMainLoop()

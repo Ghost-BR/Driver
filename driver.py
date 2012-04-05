@@ -21,6 +21,7 @@ def florest(x, y, rows, columns):
         glLoadIdentity()
         glTranslated(x, i * 30 + y, 0)
 
+
 def level():
     florest(20, 50, 4, 11)
     florest(20, 140, 8, 1)
@@ -30,9 +31,9 @@ def level():
     glLoadIdentity()
     glTranslated(110, 190, 0)
     arrow.draw()
-    
+
     c = arrow.centroide()
-    
+
     glLoadIdentity()
     glTranslated(110 + c[0], 290 + c[1], 0)
     glRotated(180, 0, 0, 1)
@@ -45,7 +46,7 @@ def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     level()
     car.draw()
-    
+
     glutSwapBuffers()
 
 
@@ -67,30 +68,48 @@ def keyboard(k, x, y):
 def special(k, x, y):
     global car
 
+    mirror = False
+    rotate = 0
     if k == GLUT_KEY_UP:
         car.y += 5.0
-        car.rotate = 1
+        rotate = 1
         if car.y > 480:
             car.y = 0
     elif k == GLUT_KEY_DOWN:
         car.y -= 5.0
-        car.rotate = 3
+        rotate = 3
         if car.y < 0:
             car.y = 480
     elif k == GLUT_KEY_LEFT:
         car.x -= 5.0
-        car.rotate = 2
+        mirror = True
         if car.x < 0:
             car.x = 640
     elif k == GLUT_KEY_RIGHT:
         car.x += 5.0
-        car.rotate = 0
         if car.x > 640:
             car.x = 0
     else:
         return
+    car.rotate = rotate
+    car.mirror = mirror
     glutPostRedisplay()
 
 
 if __name__ == '__main__':
-    base(display, reshape, keyboard, special)
+    glutInit(sys.argv)
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH)
+
+    glutInitWindowPosition(0, 0)
+    glutInitWindowSize(640, 480)
+    glutCreateWindow('Driver')
+
+    #callbacks
+    glutDisplayFunc(display)
+    glutIdleFunc(display)
+    glutReshapeFunc(reshape)
+    glutKeyboardFunc(keyboard)
+    glutSpecialFunc(special)
+
+    #mainloop
+    glutMainLoop()
