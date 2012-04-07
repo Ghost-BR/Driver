@@ -9,7 +9,7 @@ droid = Droid()
 
 rot_x = 0.0
 rot_y = 0.0
-rot_z = 0.0
+zoom = 1.0
 
 
 def display():
@@ -18,7 +18,7 @@ def display():
     glLoadIdentity()
     glRotatef(rot_x, 1.0, 0.0, 0.0)
     glRotatef(rot_y, 0.0, 1.0, 0.0)
-    glRotatef(rot_z, 0.0, 0.0, 1.0)
+    glScalef(zoom, zoom, zoom)
     droid.draw()
 
     glutSwapBuffers()
@@ -41,7 +41,7 @@ def keyboard(k, x, y):
 
 
 def special(k, x, y):
-    global rot_x, rot_y, rot_z
+    global rot_x, rot_y, zoom
 
     if k == GLUT_KEY_UP:
         rot_x += 1
@@ -51,6 +51,10 @@ def special(k, x, y):
         rot_y += 1
     elif k == GLUT_KEY_RIGHT:
         rot_y -= 1
+    elif k == GLUT_KEY_PAGE_UP:
+        zoom *= 1.1
+    elif k == GLUT_KEY_PAGE_DOWN:
+        zoom *= 0.808
     else:
         return
     glutPostRedisplay()
