@@ -9,7 +9,6 @@ class Droid(object):
         self.left_leg = {
             'pos': [-0.15, -0.35, 0.0],
             'angle': 0.0,
-            'move': False,
             'foot': {
                 'pos': [0.0, -0.2, 0.0],
                 'angle': 0.0,
@@ -19,7 +18,6 @@ class Droid(object):
         self.right_leg = {
             'pos': [0.15, -0.35, 0.0],
             'angle': 0.0,
-            'move': False,
             'foot': {
                 'pos': [0.0, -0.2, 0.0],
                 'angle': 0.0,
@@ -75,7 +73,6 @@ class Droid(object):
                 self.right_leg['angle'] += leg_angle
             else:
                 self.state = 3
-                self.right_leg['move'] = True
 
         if self.state == 3:
             if self.right_leg['angle'] > 0.0:
