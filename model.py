@@ -44,55 +44,6 @@ class Object(object):
                 item.draw()
 
 
-class Droid(object):
-    left_leg = {
-        'pos': [-0.15, -0.35, 0.0],
-        'foot': {
-            'pos': [0.0, -0.2, 0.0],
-        }
-    }
-
-    right_leg = {
-        'pos': [0.15, -0.35, 0.0],
-        'foot': {
-            'pos': [0.0, -0.2, 0.0],
-        }
-    }
-
-    def draw(self):
-        glColor3f(1.0, 0.0, 0.0)
-        glPushMatrix()
-
-        #body
-        glTranslatef(0.0, 0.2, 0.0)
-        glutWireCube(0.5)
-
-        #left leg
-        glPushMatrix()
-        glTranslatef(*self.left_leg['pos'])
-        glutWireCube(0.2)
-
-        #left foot
-        glTranslatef(*self.left_leg['foot']['pos'])
-        glutWireCube(0.2)
-        glPopMatrix()
-
-        #right leg
-        glPushMatrix()
-        glTranslatef(*self.right_leg['pos'])
-        glutWireCube(0.2)
-
-        #right foot
-        glTranslatef(*self.right_leg['foot']['pos'])
-        glutWireCube(0.2)
-        glPopMatrix()
-
-        glPopMatrix()
-
-    def walk(self):
-        pass
-
-
 class Tree(Object):
     color = GREEN
     vertices = mirror([

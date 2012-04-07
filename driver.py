@@ -64,7 +64,6 @@ def keyboard(k, x, y):
     if ord(k) == 27:
         sys.exit()
 
-
 def special(k, x, y):
     global car
 

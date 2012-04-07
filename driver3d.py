@@ -2,13 +2,13 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
-from model import *
+from model3d import *
 
 
 droid = Droid()
 
 rot_x = 0.0
-rot_y = 0.0
+rot_y = -90.0
 zoom = 1.0
 
 
@@ -19,7 +19,7 @@ def display():
     glRotatef(rot_x, 1.0, 0.0, 0.0)
     glRotatef(rot_y, 0.0, 1.0, 0.0)
     glScalef(zoom, zoom, zoom)
-    droid.draw()
+    droid.walk()
 
     glutSwapBuffers()
 
